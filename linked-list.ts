@@ -114,8 +114,8 @@ class LinkedList<T> {
     return temp;
   }
 
-  reverse(): LinkedList<T> | null{
-    if(!this.head) return null;
+  reverse(): this{
+    if(!this.head) return this;
     let temp: ListNode<T> | null = this.head;
     this.head = this.tail;
     this.tail = temp;
@@ -130,5 +130,23 @@ class LinkedList<T> {
     return this; 
   }
   
+  reversePrint(): void {
+    this._reversePrintPrivate(this.head);
+  }
   
+  private _reversePrintPrivate(node: ListNode<T> | null): void {
+    if(node === null) return;
+    this._reversePrintPrivate(node.next);
+    console.log(node.value);
+  }
 }
+
+// const nodes = new LinkedList();
+// nodes.push(1);
+// nodes.push(2);
+// nodes.push(3);
+// nodes.push(4);
+// nodes.push(5);
+// nodes.push(6);
+// console.log(nodes)
+// nodes.reversePrint();
