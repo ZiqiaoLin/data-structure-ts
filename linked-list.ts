@@ -114,6 +114,14 @@ class LinkedList<T> {
     return temp;
   }
 
+  printList(): void{
+    let temp = this.head;
+    while(temp !== null) {
+      console.log(temp.value);
+      temp = temp.next;
+    }
+  }
+
   reverse(): this{
     if(!this.head) return this;
     let temp: ListNode<T> | null = this.head;
@@ -139,14 +147,34 @@ class LinkedList<T> {
     this._reversePrintPrivate(node.next);
     console.log(node.value);
   }
+
+  reverseRecursive(): void {
+    if(!this.head) return;
+    const oldHead = this.head;
+    this.head = this._reverseRecursivePrivate(this.head);
+    this.tail = oldHead;
+  }
+
+  private _reverseRecursivePrivate(node: ListNode<T> | null): ListNode<T> | null{
+    if(!node || !node.next) {
+      return node;
+    }
+    const newHead = this._reverseRecursivePrivate(node.next);
+    node.next.next = node;
+    node.next = null;
+    return newHead;
+  }
 }
 
-// const nodes = new LinkedList();
-// nodes.push(1);
-// nodes.push(2);
-// nodes.push(3);
-// nodes.push(4);
-// nodes.push(5);
-// nodes.push(6);
-// console.log(nodes)
-// nodes.reversePrint();
+
+
+const nodes = new LinkedList();
+nodes.push(1);
+nodes.push(2);
+nodes.push(3);
+nodes.push(4);
+nodes.push(5);
+nodes.push(6);
+nodes.reverseRecursive()
+nodes.printList()
+
