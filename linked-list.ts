@@ -38,8 +38,8 @@ class LinkedList<T> {
     return this;
   }
 
-  shift(): ListNode<T> | undefined {
-    if(!this.head) return undefined;
+  shift(): ListNode<T> | null {
+    if(!this.head) return null;
     const temp = this.head;
     this.head = this.head.next;
     temp.next = null;
@@ -50,8 +50,8 @@ class LinkedList<T> {
     return temp;
   }
 
-  pop(): ListNode<T> | undefined {
-    if(!this.head) return undefined;
+  pop(): ListNode<T> | null {
+    if(!this.head) return null;
     let temp = this.head;
     let prev = this.head;
     while(temp.next) {
@@ -67,7 +67,52 @@ class LinkedList<T> {
     }
     return temp;
   }
+  
+  get(index: number): ListNode<T> | null {
+    if(index < 0 || index >= this.length) return null;
+    let temp = this.head;
+    for(let i = 0; i < index; i++) {
+      temp = temp!.next;
+    }
+    return temp;
+  }
 
+  set(index: number, value: T): boolean{
+    let temp = this.get(index);
+    if(!temp) return false;
+    temp.value = value;
+    return true;
+  }
 
+  insert(index: number, value: T): boolean {
+    if(index < 0 || index > this.length) return false;
+    if(index === 0) {
+      this.unshift(value);
+      return true;
+    }
+    if(index === this.length) {
+      this.push(value);
+      return true;
+    }
+    const newNode = new ListNode(value);
+    const prev = this.get(index - 1);
+    newNode.next = prev!.next
+    prev!.next = newNode;
+    this.length++
+    return true;
+  }
+
+  remove(index: number): ListNode<T> | null {
+    if(index < 0 || index >= this.length) return null;
+    if(index === 0) return this.shift();
+    if(index === this.length - 1) return this.pop();
+    const prev = this.get(index - 1);
+    const temp = prev!.next;
+    prev!.next = temp!.next;
+    temp!.next = null;
+    this.length--;
+    return temp;
+  }
+  
   
 }
