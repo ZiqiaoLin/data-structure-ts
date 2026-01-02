@@ -113,6 +113,22 @@ class LinkedList<T> {
     this.length--;
     return temp;
   }
+
+  reverse(): LinkedList<T> | null{
+    if(!this.head) return null;
+    let temp: ListNode<T> | null = this.head;
+    this.head = this.tail;
+    this.tail = temp;
+    let prev: ListNode<T> | null = null;
+    let next: ListNode<T> | null = null;
+    for(let i = 0; i < this.length; i++) {
+      next = temp!.next;
+      temp!.next = prev;
+      prev = temp;
+      temp = next;
+    }
+    return this; 
+  }
   
   
 }
