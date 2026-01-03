@@ -6,7 +6,7 @@ class LinkedNode<T> {
   }
 }
 
-class LinkedListStack<T> {
+export class LinkedListStack<T> {
   head: LinkedNode<T> | null = null;
   length: number = 0;
   constructor() {}
@@ -39,3 +39,5 @@ class LinkedListStack<T> {
   }
   
 }
+
+
