@@ -26,6 +26,7 @@ class LinkedListStack<T> {
     if(!this.head) return null;
     const temp = this.head;
     this.head = this.head.next;
+    temp.next = null;
     this.length--;
     return temp.value;
   }
