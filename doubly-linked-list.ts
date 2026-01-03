@@ -71,8 +71,22 @@ class DoublyLinkedList<T> {
     this.length--;
     return temp;
   }
-  get() {}
-  set() {}
+  get(index: number): DoublyLinkNode<T> | null {
+    if(index < 0 || index >= this.length) return null;
+    let temp = (index < this.length / 2) ? this.head! : this.tail!;
+    if(index < this.length / 2) {
+      for(let i = 0; i < index; i++) temp = temp.next!;
+    } else {
+      for(let i = this.length - 1; i > index; i--) temp = temp.prev!;
+    }
+    return temp;
+  }
+
+  set(index: number, value: T): boolean {
+    const getNode = this.get(index);
+    getNode!.value = value;
+    return true; 
+  }
   insert() {}
   remove() {}
   reverse() {}
@@ -94,10 +108,13 @@ dll.push(5);
 dll.push(7);
 dll.unshift(0);
 dll.print();
-console.log(dll.pop());
-console.log(dll.shift());
-console.log(dll.shift());
-console.log(dll.pop());
-console.log(dll.shift());
-console.log(dll.shift());
-dll.print();
+console.log(dll.get(3))
+console.log(dll.set(3, 100))
+dll.print()
+// console.log(dll.pop());
+// console.log(dll.shift());
+// console.log(dll.shift());
+// console.log(dll.pop());
+// console.log(dll.shift());
+// console.log(dll.shift());
+// dll.print();
