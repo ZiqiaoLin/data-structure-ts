@@ -87,9 +87,51 @@ class DoublyLinkedList<T> {
     getNode!.value = value;
     return true; 
   }
-  insert() {}
-  remove() {}
-  reverse() {}
+  insert(index: number, value: T): boolean {
+    if(index < 0 || index > this.length) return false;
+    if(index === 0) {
+      this.unshift(value);
+      return true;
+    }
+    if(index === this.length) {
+      this.push(value);
+      return true;
+    }
+    const newNode = new DoublyLinkNode(value);
+    const oldNode = this.get(index);
+    newNode.next = oldNode;
+    newNode.prev = oldNode!.prev;
+    newNode.prev!.next = newNode;
+    oldNode!.prev = newNode;
+    this.length++;
+    return true;
+  }
+  remove(index: number): DoublyLinkNode<T> | null {
+    if(index < 0 || index >= this.length) return null;
+    if(index === 0) return this.shift();
+    if(index === this.length - 1) return this.pop();
+    const temp = this.get(index);
+    temp!.prev!.next = temp!.next;
+    temp!.next!.prev = temp!.prev;
+    temp!.prev = null;
+    temp!.next = null;
+    this.length--;
+    return temp;
+  }
+  reverse(): this {
+    let temp: DoublyLinkNode<T> | null = null;
+    let curr: DoublyLinkNode<T> | null = this.head;
+    while(curr) {
+      temp = curr.next;
+      curr.next = curr.prev;
+      curr.prev = temp;
+      curr = temp;
+    }
+    temp = this.head;
+    this.head = this.tail;
+    this.tail = temp;
+    return this;
+  }
   print(): void {
     let temp = this.head;
     let result: string = '';
@@ -102,15 +144,24 @@ class DoublyLinkedList<T> {
 }
 
 const dll = new DoublyLinkedList();
-dll.push(1);
-dll.push(3);
-dll.push(5);
-dll.push(7);
-dll.unshift(0);
+// dll.push(1);
+// dll.push(3);
+// dll.push(5);
+// dll.push(7);
+// dll.unshift(0);
+// dll.print();
+dll.reverse();
 dll.print();
-console.log(dll.get(3))
-console.log(dll.set(3, 100))
-dll.print()
+// console.log(dll.remove(2))
+// console.log(dll.remove(3))
+// console.log(dll.remove(2))
+// console.log(dll.get(3))
+// console.log(dll.set(3, 100))
+// console.log(dll.insert(0,10))
+// console.log(dll.insert(3,20))
+// console.log(dll.insert(5,30))
+
+
 // console.log(dll.pop());
 // console.log(dll.shift());
 // console.log(dll.shift());
