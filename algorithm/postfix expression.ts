@@ -94,16 +94,53 @@ function infixToPostfix(exp: string): string {
   return res;
 }
 
-const exp1 = '3 + 4 * 2 / 1'; //3 4 2 * 1 / +
-const exp2 = '((1 + 2) * 3) / (4 + 5)'; //1 2 + 3 * 4 5 + /
-const exp3 = '3 + 2 ** 2 ** 3'; //3 2 2 3 ** ** +
-const exp4 = '5 + (-3 + 2) * 4'; //5 -3 2 + 4 * +
-const exp5 = '100 / (2 + 3) ** 2 * 3'; //100 2 3 + 2 ** / 3 *
-const exp6 = '32 ** 1 ** 5 + 3 ** 2'; //32 1 5 ** ** 3 2 ** +
+function calculatePostfix(str: string): number | null{
+  if(str.length === 0) return null;
+  const stack = new LinkedListStack<number>();
+  const postfix = infixToPostfix(str).trim().split(' ');
+  for(let i = 0; i < postfix.length; i++) {
+    if(isOperand(postfix[i]!)) {
+      // if it's operand, push to stack
+      stack.push(Number(postfix[i]));
+    } else {
+      // if it's operator, pop two operands from stack top, first pop is the second operand, calculate and push result to stack
+      const n1 = Number(stack.pop());
+      const n2 = Number(stack.pop());
+      if(n1 === null || n2 === null) {
+        console.error('error: not enough operand');
+        return null;
+      }
+      let res: number;
+      switch(postfix[i]) {
+        case '+': res = n2 + n1; break;
+        case '-': res = n2 - n1; break;
+        case '*': res = n2 * n1; break;
+        case '/': res = n2 / n1; break;
+        case '%': res = n2 % n1; break;
+        case '**': res = n2 ** n1; break;
+        default: return null;
+      }
+      stack.push(res);
+    }
+  }
+  const res = stack.pop();
+  if(!stack.isEmpty()) {
+    console.error('error: too much operand');
+    return null;
+  }
+  return res;
+}
 
-console.log(infixToPostfix(exp1));
-console.log(infixToPostfix(exp2));
-console.log(infixToPostfix(exp3));
-console.log(infixToPostfix(exp4));
-console.log(infixToPostfix(exp5));
-console.log(infixToPostfix(exp6));
+const exp1 = '3 + 4 * 2 / 1'; //3 4 2 * 1 / +  '11'
+const exp2 = '((1 + 2) * 3) / (4 + 5)'; //1 2 + 3 * 4 5 + / '1'
+const exp3 = '3 + 2 ** 2 ** 3'; //3 2 2 3 ** ** + '259'
+const exp4 = '5 + (-3 + 2) * 4'; //5 -3 2 + 4 * + '1'
+const exp5 = '100 / (2 + 3) ** 2 * 3'; //100 2 3 + 2 ** / 3 * '12'
+const exp6 = '32 ** 1 ** 5 + 3 ** 2'; //32 1 5 ** ** 3 2 ** + '41'
+
+console.log(calculatePostfix(exp1));
+console.log(calculatePostfix(exp2));
+console.log(calculatePostfix(exp3));
+console.log(calculatePostfix(exp4));
+console.log(calculatePostfix(exp5));
+console.log(calculatePostfix(exp6));
