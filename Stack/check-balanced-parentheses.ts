@@ -1,4 +1,4 @@
-import { LinkedListStack } from "../linked-list-stack";
+import { LinkedListStack } from "./linked-list-stack.js";
 
 function checkBalancedParentheses(str: string): boolean {
   const stack = new LinkedListStack<string>();

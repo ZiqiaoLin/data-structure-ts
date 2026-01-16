@@ -1,4 +1,4 @@
-import { LinkedListStack } from "../linked-list-stack.js";
+import { LinkedListStack } from "./linked-list-stack.js";
 
 function tokenize(exp: string): string[] {
   // \d+(\.\d+)? match number include float
