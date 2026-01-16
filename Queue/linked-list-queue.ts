@@ -6,7 +6,7 @@ class LinkedNode<T> {
   }
 }
 
-class LinkedListQueue<T> {
+export class LinkedListQueue<T> {
   private _head: LinkedNode<T> | null = null;
   private _tail: LinkedNode<T> | null = null;
   private _length: number = 0;

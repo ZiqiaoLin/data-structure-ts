@@ -1,60 +1,12 @@
-class NodeQueue<T> {
-  value: T;
-  next: NodeQueue<T> | null = null;
-  constructor(value: T) {
-    this.value = value;
-  }
-}
-
-class NodeBST<T> {
-  value: T;
-  left: NodeBST<T> | null = null;
-  right: NodeBST<T> | null = null;
-  constructor(value: T) {
-    this.value = value;
-  }
-}
-
-class Queue<T> {
-  head: NodeQueue<T> | null = null;
-  tail: NodeQueue<T> | null = null;
-  length: number = 0;
-  constructor() {}
-  enqueue(value: T): void {
-    const newNode = new NodeQueue(value);
-    if(this.isEmpty()) {
-      this.head = newNode;
-      this.tail = newNode;
-    } else {
-      this.tail!.next = newNode;
-      this.tail = newNode;
-    }
-    this.length++;
-  }
-
-  dequeue(): T | null {
-    if(this.isEmpty()) return null;
-    const temp = this.head;
-    this.head = this.head!.next;
-    temp!.next = null;
-    this.length--;
-    if(this.isEmpty()) {
-      this.tail = null;
-    }
-    return temp!.value;
-  }
-
-  isEmpty(): boolean {
-    return this.length === 0;
-  }
-}
+import { LinkedListQueue } from '../Queue/linked-list-queue.js'
+import { BSTNode } from './binery-search-tree.js'
 
 class BST<T> {
-  root: NodeBST<T> | null = null;
+  root: BSTNode<T> | null = null;
   constructor() {}
 
   insert(value: T): BST<T> | undefined {
-    const newNode = new NodeBST(value);
+    const newNode = new BSTNode(value);
     if(!this.root) {
       this.root = newNode;
       return this;
@@ -81,7 +33,7 @@ class BST<T> {
   BFS(): T[] {
     if(!this.root) return [];
     const result: T[] = [];
-    const queue = new Queue<NodeBST<T>>();
+    const queue = new LinkedListQueue<BSTNode<T>>();
     queue.enqueue(this.root);
     while(!queue.isEmpty()) {
       const curr = queue.dequeue()!;

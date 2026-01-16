@@ -1,4 +1,4 @@
-class BSTNode<T> {
+export class BSTNode<T> {
   value: T;
   left: BSTNode<T> | null = null;
   right: BSTNode<T> | null = null;
@@ -123,17 +123,17 @@ class BST<T> {
 
 }
 
-const newBST = new BST();
-newBST.insert(40);
-newBST.insert(30);
-newBST.insert(10);
-newBST.insert(20);
-newBST.insert(50);
-newBST.insert(70);
-newBST.insert(80);
-console.log(newBST.min());
-console.log(newBST.max());
-console.log(newBST.recursiveSearch(25))
-newBST.recursiveInsert(5);
-console.log(newBST.min());
-console.log(newBST.recursiveMaxHeight())
+// const newBST = new BST();
+// newBST.insert(40);
+// newBST.insert(30);
+// newBST.insert(10);
+// newBST.insert(20);
+// newBST.insert(50);
+// newBST.insert(70);
+// newBST.insert(80);
+// console.log(newBST.min());
+// console.log(newBST.max());
+// console.log(newBST.recursiveSearch(25))
+// newBST.recursiveInsert(5);
+// console.log(newBST.min());
+// console.log(newBST.recursiveMaxHeight())
