@@ -67,6 +67,20 @@ class BST<T> {
     }
     return temp;
   }
+
+  public isValidBST(): boolean {
+    return this._isValidBST(this.root, null, null);
+  }
+
+  private _isValidBST(node: BSTNode<T> | null, min: T | null, max: T | null): boolean {
+    if(!node) return true;
+
+    if(min !== null && node.value <= min!) return false;
+    if(max !== null && node.value >= max!) return false;
+
+    return this._isValidBST(node.left, min, node.value) && this._isValidBST(node.right, node.value, max);
+
+  }
   
   // recursive insert
   public recursiveInsert(value: T): void {
@@ -129,8 +143,9 @@ class BST<T> {
 // newBST.insert(10);
 // newBST.insert(20);
 // newBST.insert(50);
-// newBST.insert(70);
-// newBST.insert(80);
+// newBST.insert(-10);
+// newBST.insert(0);
+// console.log(newBST.isValidBST());
 // console.log(newBST.min());
 // console.log(newBST.max());
 // console.log(newBST.recursiveSearch(25))
