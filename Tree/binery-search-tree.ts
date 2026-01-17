@@ -49,6 +49,48 @@ class BST<T> {
     }
     return false;
   }
+  public remove(value: T): void {
+    this.root = this._remove(this.root, value);
+  }
+  private _remove(node: BSTNode<T> | null, value: T): BSTNode<T> | null {
+    if(!node) return null;
+    if(value < node.value) { // -> left subtree
+      node.left = this._remove(node.left, value);
+      return node;
+    } else if(value > node!.value) { // -> right subtree
+      node.right = this._remove(node.right, value);
+      return node;
+    } else {  // find the targeted node
+      if(!node.left && !node.right) {  // leaf node, return null to its parent node overwrite itself
+        return null;
+      } else if(!node.left) {  // one right child, return right child to parent node overwrite itself
+        return node.right;
+      } else if(!node.right) {  // one left child, return left child to parent node overwrite itself
+        return node.left;
+      } else {  // two children, find the min node in the right subtree, copy the value and remove the min node
+        let temp = node.right;
+        while(temp.left !== null) {
+          temp = temp.left
+        }
+        node.value = temp.value;
+        node.right = this._remove(node.right, temp.value);
+        return node;
+      }
+    }
+  }
+
+  public inorderDFS(): T[] {
+    const result: T[] = [];
+    this._inorderDFS(this.root, result);
+    return result;
+  }
+
+  private _inorderDFS(node: BSTNode<T> | null, data: T[]): void {
+    if(!node) return;
+    this._inorderDFS(node.left, data);
+    data.push(node.value);
+    this._inorderDFS(node.right, data);
+  }
 
   min(): BSTNode<T> | null {
     if(!this.root) return null;
@@ -137,14 +179,17 @@ class BST<T> {
 
 }
 
-// const newBST = new BST();
-// newBST.insert(40);
-// newBST.insert(30);
-// newBST.insert(10);
-// newBST.insert(20);
-// newBST.insert(50);
-// newBST.insert(-10);
-// newBST.insert(0);
+const newBST = new BST();
+newBST.insert(40);
+newBST.insert(30);
+newBST.insert(10);
+newBST.insert(20);
+newBST.insert(50);
+newBST.insert(-10);
+newBST.insert(0);
+console.log(newBST.remove(-10));
+console.log(newBST.inorderDFS());
+console.log(newBST.isValidBST());
 // console.log(newBST.isValidBST());
 // console.log(newBST.min());
 // console.log(newBST.max());
