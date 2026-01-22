@@ -6,7 +6,7 @@ class ListNode<T> {
   }
 }
 
-class LinkedList<T> {
+export class LinkedList<T> {
   head: ListNode<T> | null = null;
   tail: ListNode<T> | null = null;
   length: number = 0;
@@ -102,7 +102,7 @@ class LinkedList<T> {
     return true;
   }
 
-  remove(index: number): ListNode<T> | null {
+  removeAt(index: number): ListNode<T> | null { // remove base on index
     if(index < 0 || index >= this.length) return null;
     if(index === 0) return this.shift();
     if(index === this.length - 1) return this.pop();
@@ -112,6 +112,50 @@ class LinkedList<T> {
     temp!.next = null;
     this.length--;
     return temp;
+  }
+
+  process(callback: (value: T) => {delete: boolean, newValue?: T}): void {
+    let temp = this.head;
+    let prev: ListNode<T> | null = null;
+    while(temp) {
+      const result = callback(temp.value);
+      if(result.delete) {
+        if(prev === null) {
+          this.head = temp.next;
+        } else {
+          prev.next = temp.next;
+        }
+        if(this.tail === temp) this.tail = prev;
+        this.length--;
+        temp = temp.next;
+      } else {
+        if(result.newValue !== undefined) {
+          temp.value = result.newValue;
+        }
+        prev = temp;
+        temp = temp.next;
+      }
+    }
+  }
+
+  remove(value: T): boolean { // remove base on value
+    let temp = this.head;
+    let prev: ListNode<T> | null = null;
+    while(temp) {
+      if(temp.value === value) { 
+        if(prev === null) {
+          this.head = temp.next;
+        } else {
+          prev.next = temp.next;
+        }
+        if(this.tail === temp) this.tail = prev;
+        this.length--;
+        return true;
+      }
+      prev = temp;
+      temp = temp.next;
+    }
+    return false;
   }
 
   printList(): void{
