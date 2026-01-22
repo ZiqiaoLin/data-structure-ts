@@ -11,6 +11,10 @@ export class Graph<T extends string | number> {
   }
 
   addVertex(vertex: T): void {
+    // if has vertex, return
+    // set vertex -> index map
+    // push vertex to vertices[]
+    // create empty Linked List in adjList for new Vertex
     if(this.vertexMap.has(vertex)) return;
     const index = this.vertices.length;
     this.vertexMap.set(vertex, index);
@@ -18,7 +22,11 @@ export class Graph<T extends string | number> {
     const newLinkedList: LinkedList<number> = new LinkedList();
     this.adjList.push(newLinkedList);
   }
+
   addEdge(v1: T, v2: T): void {
+    // get two vertices index
+    // check if vertices exist
+    // if not connected, push v1's index to v2's LL, push v2's index to v1's LL
     const i = this.vertexMap.get(v1);
     const j = this.vertexMap.get(v2);
     if(i === undefined || j === undefined) throw new Error('Vertices not found');
@@ -27,7 +35,13 @@ export class Graph<T extends string | number> {
       this.adjList[j]!.push(i);
     }
   }
+
   removeVertex(vertex: T): boolean {
+    // check vertex exist
+    // iterate adjList and iterate every LL, if find vertex's index -> delete, if greater than vertex's index -> its index-1
+    // delete vertex's LL from adjList
+    // delete vertex from vertices[]
+    // reset vertexMap
     const index = this.vertexMap.get(vertex);
     if(index === undefined) return false;
     this.adjList.forEach(ver => { // ver: linked list 
@@ -44,6 +58,8 @@ export class Graph<T extends string | number> {
     return true;
   }
   removeEdge(v1: T, v2: T): boolean {
+    // check v1 and v2 exist
+    // remove v1's index from v2's LL, remove v2's index from v1's LL
     const i = this.vertexMap.get(v1);
     const j = this.vertexMap.get(v2);
     if(i === undefined || j === undefined) return false;
@@ -53,6 +69,8 @@ export class Graph<T extends string | number> {
   }
 
   isConnected(v1: T, v2: T): boolean {
+    // check v1 and v2 exist
+    // iterate v1's LL find v2's index
     const i = this.vertexMap.get(v1);
     const j = this.vertexMap.get(v2);
     if(i !== undefined && j !== undefined) {
@@ -65,6 +83,8 @@ export class Graph<T extends string | number> {
     return false;
   }
   getNeighbors(vertex: T): T[] {
+    // check vertex exist
+    // iterate vertex's LL, convert to it's value, push to array
     const neighbors: T[] = [];
     const index = this.vertexMap.get(vertex);
     if(index === undefined) return neighbors;

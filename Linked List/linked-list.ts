@@ -13,6 +13,9 @@ export class LinkedList<T> {
   constructor() {}
 
   push(value: T): LinkedList<T> {
+    // create new node
+    // if LL empty -> set head and tail = new node
+    // if not empty -> set tail's next(last node) = new node, tail = new node
     const newNode = new ListNode<T>(value);
     if(!this.head) {
       this.head = newNode;
@@ -26,6 +29,9 @@ export class LinkedList<T> {
   }
 
   unshift(value: T): LinkedList<T> {
+    // create new node
+    // if LL empty -> set head and tail = new node
+    // if not empty -> set new node's next = head, head = new node
     const newNode = new ListNode<T>(value);
     if(!this.head) {
       this.head = newNode;
@@ -39,6 +45,8 @@ export class LinkedList<T> {
   }
 
   shift(): ListNode<T> | null {
+    // check is LL empty
+    // if not, set temp = head, head = 
     if(!this.head) return null;
     const temp = this.head;
     this.head = this.head.next;

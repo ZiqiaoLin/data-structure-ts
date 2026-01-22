@@ -9,6 +9,11 @@ class Graph <T extends number | string>{
   }
 
   addVertex(vertex: T): void {
+    // check vertex exist
+    // if not, set up vertex -> index map
+    // push vertex to vertices[]
+    // iterate matrix each row push one 0
+    // push new array fill with 0 to the matrix
     if(this.vertexMap.has(vertex)) return;
     const newIndex = this.vertices.length;
     this.vertexMap.set(vertex, newIndex);
@@ -20,6 +25,8 @@ class Graph <T extends number | string>{
     this.matrix.push(newRow);
   }
   addEdge(v1: T, v2: T): void {
+    // check v1 and v2 exist
+    // if exist, change the matrix value [v1][v2] and [v2][v1] from 0 to 1
     const i = this.vertexMap.get(v1);
     const j = this.vertexMap.get(v2);
     if(i !== undefined && j !== undefined) {
@@ -30,6 +37,11 @@ class Graph <T extends number | string>{
     }
   }
   removeVertex(vertex: T): boolean {
+    // check vertex exist
+    // if exist, get its index, iterate matrix each row, remove this rows vertex's index
+    // remove it from matrix
+    // remove it from vertices
+    // reset vertexMap
     const vertexIndex = this.vertexMap.get(vertex);
     if(vertexIndex === undefined) return false;
     for(let i = 0; i < this.matrix.length; i++) {
@@ -42,6 +54,8 @@ class Graph <T extends number | string>{
     return true;
   }
   removeEdge(v1: T, v2: T): boolean {
+    // check v1 and v2 exist
+    // if exist, change matrix [v1][v2] and [v2][v1] from 1 to 0
     const i = this.vertexMap.get(v1);
     const j = this.vertexMap.get(v2);
     if(i !== undefined && j !== undefined && this.matrix[i]![j] === 1) {
@@ -52,11 +66,15 @@ class Graph <T extends number | string>{
     return false;
   }
   isConnected(v1: T, v2: T): boolean {
+    // check v1 and v2 exist
+    // check if matrix[v1][v2] is 1
     const i = this.vertexMap.get(v1);
     const j = this.vertexMap.get(v2);
     return i !== undefined && j !== undefined && this.matrix[i]![j] === 1;
   }
   getNeighbors(vertex: T): T[] {
+    // check vertex exist
+    // if exist, get it index, iterate matrix[index], push the value = 1's element's value to the array 
     const index = this.vertexMap.get(vertex);
     if(index === undefined) return [];
     const neighbors: T[] = [];
